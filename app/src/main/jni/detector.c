@@ -218,9 +218,9 @@ void InitiateBuffer(StateStructure *State) {
 }
 
 void InitiateSamples(StateStructure *State) {
-    State->X = State->Buffer + se491_phm_Detector_OFFSET_X;
-    State->Y = State->Buffer + se491_phm_Detector_OFFSET_Y;
-    State->Z = State->Buffer + se491_phm_Detector_OFFSET_Z;
+    State->X = State->Buffer + capstone_se491_1phm_Detector_OFFSET_X;
+    State->Y = State->Buffer + capstone_se491_1phm_Detector_OFFSET_Y;
+    State->Z = State->Buffer + capstone_se491_1phm_Detector_OFFSET_Z;
 }
 
 void InitiateResampling(StateStructure *State) {
@@ -229,12 +229,12 @@ void InitiateResampling(StateStructure *State) {
 }
 
 void InitiateFiltering(StateStructure *State) {
-    State->X_LPF = State->Buffer + se491_phm_Detector_OFFSET_X_LPF;
-    State->Y_LPF = State->Buffer + se491_phm_Detector_OFFSET_Y_LPF;
-    State->Z_LPF = State->Buffer + se491_phm_Detector_OFFSET_Z_LPF;
-    State->X_HPF = State->Buffer + se491_phm_Detector_OFFSET_X_HPF;
-    State->Y_HPF = State->Buffer + se491_phm_Detector_OFFSET_Y_HPF;
-    State->Z_HPF = State->Buffer + se491_phm_Detector_OFFSET_Z_HPF;
+    State->X_LPF = State->Buffer + capstone_se491_1phm_Detector_OFFSET_X_LPF;
+    State->Y_LPF = State->Buffer + capstone_se491_1phm_Detector_OFFSET_Y_LPF;
+    State->Z_LPF = State->Buffer + capstone_se491_1phm_Detector_OFFSET_Z_LPF;
+    State->X_HPF = State->Buffer + capstone_se491_1phm_Detector_OFFSET_X_HPF;
+    State->Y_HPF = State->Buffer + capstone_se491_1phm_Detector_OFFSET_Y_HPF;
+    State->Z_HPF = State->Buffer + capstone_se491_1phm_Detector_OFFSET_Z_HPF;
     Fill(State->XLPFXV, 0, FILTER_NZEROS + 1, 0);
     Fill(State->XLPFYV, 0, FILTER_NPOLES + 1, 0);
     Fill(State->YLPFXV, 0, FILTER_NZEROS + 1, 0);
@@ -250,22 +250,22 @@ void InitiateFiltering(StateStructure *State) {
 }
 
 void InitiateDeltas(StateStructure *State) {
-    State->X_MAXMIN = State->Buffer + se491_phm_Detector_OFFSET_X_D;
-    State->Y_MAXMIN = State->Buffer + se491_phm_Detector_OFFSET_Y_D;
-    State->Z_MAXMIN = State->Buffer + se491_phm_Detector_OFFSET_Z_D;
+    State->X_MAXMIN = State->Buffer + capstone_se491_1phm_Detector_OFFSET_X_D;
+    State->Y_MAXMIN = State->Buffer + capstone_se491_1phm_Detector_OFFSET_Y_D;
+    State->Z_MAXMIN = State->Buffer + capstone_se491_1phm_Detector_OFFSET_Z_D;
 }
 
 void InitiateSV(StateStructure *State) {
-    State->SV_TOT = State->Buffer + se491_phm_Detector_OFFSET_SV_TOT;
-    State->SV_D = State->Buffer + se491_phm_Detector_OFFSET_SV_D;
-    State->SV_MAXMIN = State->Buffer + se491_phm_Detector_OFFSET_SV_MAXMIN;
-    State->Z_2 = State->Buffer + se491_phm_Detector_OFFSET_Z_2;
+    State->SV_TOT = State->Buffer + capstone_se491_1phm_Detector_OFFSET_SV_TOT;
+    State->SV_D = State->Buffer + capstone_se491_1phm_Detector_OFFSET_SV_D;
+    State->SV_MAXMIN = State->Buffer + capstone_se491_1phm_Detector_OFFSET_SV_MAXMIN;
+    State->Z_2 = State->Buffer + capstone_se491_1phm_Detector_OFFSET_Z_2;
 }
 
 void InitiateEvents(StateStructure *State) {
-    State->Falling = State->Buffer + se491_phm_Detector_OFFSET_FALLING;
-    State->Impact = State->Buffer + se491_phm_Detector_OFFSET_IMPACT;
-    State->Lying = State->Buffer + se491_phm_Detector_OFFSET_LYING;
+    State->Falling = State->Buffer + capstone_se491_1phm_Detector_OFFSET_FALLING;
+    State->Impact = State->Buffer + capstone_se491_1phm_Detector_OFFSET_IMPACT;
+    State->Lying = State->Buffer + capstone_se491_1phm_Detector_OFFSET_LYING;
 }
 
 void InitiateProtection(StateStructure *State) {
@@ -292,13 +292,13 @@ void InitiateSensor(StateStructure *State) {
     ASensorEventQueue_setEventRate(State->Queue, Sensor, INTERVAL_MS * 1000);
 }
 
-JNIEXPORT void JNICALL Java_se491_phm_Detector_initiate(JNIEnv *JNI, jclass SelfClass,
+JNIEXPORT void JNICALL Java_capstone_se491_1phm_Detector_initiate(JNIEnv *JNI, jclass SelfClass,
                                                                     jobject Context) {
     if (NULL == State) {
         StateStructure *Blank = (StateStructure *) malloc(sizeof(StateStructure));
         Blank->JNI = JNI;
         Blank->Context = (*JNI)->NewGlobalRef(JNI, Context);
-        Blank->AlarmClass = (*JNI)->FindClass(JNI, "se491/phm/Alarm");
+        Blank->AlarmClass = (*JNI)->FindClass(JNI, "capstone/se491_phm/Alarm");
         Blank->AlarmClass = (*JNI)->NewGlobalRef(JNI, Blank->AlarmClass);
         Blank->AlarmCall = (*JNI)->GetStaticMethodID(JNI, Blank->AlarmClass, "call",
                                                      "(Landroid/content/Context;)V");
@@ -315,13 +315,13 @@ JNIEXPORT void JNICALL Java_se491_phm_Detector_initiate(JNIEnv *JNI, jclass Self
     }
 }
 
-JNIEXPORT void JNICALL Java_se491_phm_Detector_acquire(JNIEnv *JNI, jclass Self) {
+JNIEXPORT void JNICALL Java_capstone_se491_1phm_Detector_acquire(JNIEnv *JNI, jclass Self) {
     if (NULL != State) {
         pthread_mutex_lock(&State->Lock);
     }
 }
 
-JNIEXPORT jdoubleArray JNICALL Java_se491_phm_Detector_buffer(JNIEnv *JNI,
+JNIEXPORT jdoubleArray JNICALL Java_capstone_se491_1phm_Detector_buffer(JNIEnv *JNI,
                                                                           jclass Self) {
     if (NULL != State) {
         (*JNI)->ReleaseDoubleArrayElements(JNI, State->BufferArray, State->Buffer, JNI_COMMIT);
@@ -330,14 +330,14 @@ JNIEXPORT jdoubleArray JNICALL Java_se491_phm_Detector_buffer(JNIEnv *JNI,
     return NULL;
 }
 
-JNIEXPORT jint JNICALL Java_se491_phm_Detector_position(JNIEnv *JNI, jclass Self) {
+JNIEXPORT jint JNICALL Java_capstone_se491_1phm_Detector_position(JNIEnv *JNI, jclass Self) {
     if (NULL != State) {
         return State->Position;
     }
     return 0;
 }
 
-JNIEXPORT void JNICALL Java_se491_phm_Detector_release(JNIEnv *JNI, jclass Self) {
+JNIEXPORT void JNICALL Java_capstone_se491_1phm_Detector_release(JNIEnv *JNI, jclass Self) {
     if (NULL != State) {
         pthread_mutex_unlock(&State->Lock);
     }

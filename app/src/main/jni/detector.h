@@ -35,9 +35,9 @@ SOFTWARE.
 #define LOG(level, ...)
 #endif
 
-#define INTERVAL_MS se491_phm_Detector_INTERVAL_MS
-#define N se491_phm_Detector_N
-#define SIZE_BUFFER se491_phm_Detector_SIZE
+#define INTERVAL_MS capstone_se491_1phm_Detector_INTERVAL_MS
+#define N capstone_se491_1phm_Detector_N
+#define SIZE_BUFFER capstone_se491_1phm_Detector_SIZE
 #define SPAN_MAXMIN (100 / INTERVAL_MS)
 #define SPAN_FALLING (1000 / INTERVAL_MS)
 #define SPAN_IMPACT (2000 / INTERVAL_MS)
@@ -52,11 +52,11 @@ SOFTWARE.
 
 #define G 1.0
 
-#define FALLING_WAIST_SV_TOT se491_phm_Detector_FALLING_WAIST_SV_TOT
-#define IMPACT_WAIST_SV_TOT se491_phm_Detector_IMPACT_WAIST_SV_TOT
-#define IMPACT_WAIST_SV_D se491_phm_Detector_IMPACT_WAIST_SV_D
-#define IMPACT_WAIST_SV_MAXMIN se491_phm_Detector_IMPACT_WAIST_SV_MAXMIN
-#define IMPACT_WAIST_Z_2 se491_phm_Detector_IMPACT_WAIST_Z_2
+#define FALLING_WAIST_SV_TOT capstone_se491_1phm_Detector_FALLING_WAIST_SV_TOT
+#define IMPACT_WAIST_SV_TOT capstone_se491_1phm_Detector_IMPACT_WAIST_SV_TOT
+#define IMPACT_WAIST_SV_D capstone_se491_1phm_Detector_IMPACT_WAIST_SV_D
+#define IMPACT_WAIST_SV_MAXMIN capstone_se491_1phm_Detector_IMPACT_WAIST_SV_MAXMIN
+#define IMPACT_WAIST_Z_2 capstone_se491_1phm_Detector_IMPACT_WAIST_Z_2
 #define LYING_AVERAGE_Z_LPF 0.5
 
 typedef struct {

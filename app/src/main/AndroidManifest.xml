@@ -3,7 +3,11 @@
     package="capstone.se491_phm">
 
     <!--permissions start-->
-
+    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+    <!--ability to use alarm manager-->
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <!--ability to send text automatically-->
+    <uses-permission android:name="android.permission.SEND_SMS"/>
     <!--permissions end-->
 
     <application
