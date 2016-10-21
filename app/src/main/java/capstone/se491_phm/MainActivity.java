@@ -1,3 +1,8 @@
+/*
+Project Name: PHM
+Author Name: Advait, Artem, Geoff, Tahani & Yatin.
+*/
+
 package capstone.se491_phm;
 
 import android.app.Activity;
