@@ -23,6 +23,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <!-- feature list start -->
+        <uses-feature
+            android:name="@string/step_detector" android:required="false"/>
+        <uses-feature
+            android:name="@string/step_counter" android:required="false"/>
+        <!-- feature list end -->
+
+        <!--shcedule job receivers start -->
+        <receiver
+            android:name=".jobs.DailyActivityMonitorJob"
+            android:exported="true"
+            android:enabled="true">
+        </receiver>
+        <receiver
+            android:name=".jobs.WeeklyActivityMonitorJob"
+            android:exported="true"
+            android:enabled="true">
+        </receiver>
+        <!--shcedule job receivers end -->
+    </application>
 </manifest>
