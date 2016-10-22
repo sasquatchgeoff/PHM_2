@@ -114,6 +114,11 @@ public class StepCounter implements SensorEventListener,ISensors {
                     activityData.put(group.toString(),0L);
                 }
             }
+        } else {
+            //populate map with all zero since there is no data read in
+            for(Enum group : Constants.ActivityGroup.values()){
+                activityData.put(group.toString(),0L);
+            }
         }
     }
 

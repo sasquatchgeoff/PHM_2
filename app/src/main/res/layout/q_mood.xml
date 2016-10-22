@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/moodSurvey">
+
+        <TextView
+            android:text="I have noticed some unusual mood/behavior, please answer this short survey so I can better understand the situation. In the past week have you..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:layout_weight="6.73"
+            android:textStyle="normal|bold"
+            android:textAlignment="viewStart"
+            android:fontFamily="sans-serif"
+            android:textSize="18sp" />
+
+        <TextView
+            android:text="...felt so good or so hyper?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:layout_weight="6.73" />
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton2"
+            android:id="@+id/moodSurvey_q1">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton1"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton2"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <TextView
+            android:text="...felt so irritable that you shouted at people or started fights or arguments?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:layout_weight="6.73" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton4"
+            android:id="@+id/moodSurvey_q2">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton3"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton4"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <TextView
+            android:text="...felt much more self-confident than usual?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView7"
+            android:layout_weight="6.73" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton6"
+            android:id="@+id/moodSurvey_q3">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton5"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton6"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <TextView
+            android:text="...felt fine sleeping less?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView9"
+            android:layout_weight="6.73" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton8"
+            android:id="@+id/moodSurvey_q4">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton7"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton8"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <TextView
+            android:text="...felt much more talkative or spoke much faster than usual?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView10"
+            android:layout_weight="6.73" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton10"
+            android:id="@+id/moodSurvey_q5">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton9"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton10"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <TextView
+            android:text="...felt that thoughts raced through your head with no control?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView11"
+            android:layout_weight="6.73" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton12"
+            android:id="@+id/moodSurvey_q6">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton11"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton12"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <TextView
+            android:text="...felt easily distracted by things around you?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView12"
+            android:layout_weight="6.73" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton14"
+            android:id="@+id/moodSurvey_q7">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton13"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton14"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <TextView
+            android:text="...had much more energy than usual?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView13"
+            android:layout_weight="6.73" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton16"
+            android:id="@+id/moodSurvey_q8">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton15"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton16"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <TextView
+            android:text="...felt much more active?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView14"
+            android:layout_weight="6.73" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton18"
+            android:id="@+id/moodSurvey_q9">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton17"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton18"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <TextView
+            android:text="...felt much more social or outgoing than usual?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView15"
+            android:layout_weight="6.73" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton20"
+            android:id="@+id/moodSurvey_q10">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton19"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton20"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <TextView
+            android:text="...felt much more interested in sex than usual?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView16"
+            android:layout_weight="6.73" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton22"
+            android:id="@+id/moodSurvey_q11">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton21"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton22"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <TextView
+            android:text="...did things that other people might have thought were excessive, foolish, or risky?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView17"
+            android:layout_weight="6.73" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton24"
+            android:id="@+id/moodSurvey_q12">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton23"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton24"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <TextView
+            android:text="...spent money that got you or your family into trouble?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView18"
+            android:layout_weight="6.73" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.73"
+            android:checkedButton="@+id/radioButton26"
+            android:id="@+id/moodSurvey_q13">
+
+            <RadioButton
+                android:text="Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton25"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton26"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+        <Button
+            android:text="Submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/btnSaveMoodSurvey"
+            android:onClick="saveMoodSurvey"/>
+
+        <TextView
+            android:text="Success"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/saveSurveyMessage"
+            android:layout_weight="6.73"
+            android:visibility="invisible"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
+
+        <Button
+            android:text="Close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnClose"
+            android:onClick="goHomeFromMoodSurvey"/>
+
+    </LinearLayout>
+
+</ScrollView>

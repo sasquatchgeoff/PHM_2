@@ -24,6 +24,19 @@
             </intent-filter>
         </activity>
 
+        <!-- questionnare activities start -->
+        <activity android:name=".questionnaire.Mood">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".questionnaire.MoodDaily">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <!-- questionnare activities end -->
+
         <!-- feature list start -->
         <uses-feature
             android:name="@string/step_detector" android:required="false"/>
@@ -39,6 +52,16 @@
         </receiver>
         <receiver
             android:name=".jobs.WeeklyActivityMonitorJob"
+            android:exported="true"
+            android:enabled="true">
+        </receiver>
+        <receiver
+            android:name=".jobs.MoodDailyJob"
+            android:exported="true"
+            android:enabled="true">
+        </receiver>
+        <receiver
+            android:name=".jobs.MoodSurvey"
             android:exported="true"
             android:enabled="true">
         </receiver>

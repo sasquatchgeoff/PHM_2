@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:id="@+id/seekBar_mood_selection"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:max="4"
+        android:progress="2" />
+
+    <TextView
+        android:text="How are you feeling today?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView2"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/seekBar_mood_selection"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/selectDailyMood"
+        android:textSize="14sp" />
+
+    <Button
+        android:text="Go Home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btnHomeDailyMood"
+        android:onClick="moodDailyHome"/>
+
+    <Button
+        android:text="Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnHomeDailyMood"
+        android:layout_alignStart="@+id/btnHomeDailyMood"
+        android:layout_marginBottom="39dp"
+        android:id="@+id/btnSaveMoodDaily"
+        android:onClick="saveMoodDaily"/>
+</RelativeLayout>
