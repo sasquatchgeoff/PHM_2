@@ -23,7 +23,8 @@ public class MoodSurvey extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(MoodDaily.dailyMoodAverage < MOOD_LOW || MoodDaily.dailyMoodAverage > MOOD_HIGH){
+        if((MoodDaily.dailyMoodAverage < MOOD_LOW || MoodDaily.dailyMoodAverage > MOOD_HIGH) &&
+                MoodDaily.numberOfEntries > 0){
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
                             .setSmallIcon(R.drawable.notification)

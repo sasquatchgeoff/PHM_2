@@ -48,7 +48,15 @@ public class Alarm {
             id = pool.load(context.getApplicationContext(), R.raw.alarm, 1);
         }
         loudest(context, AudioManager.STREAM_ALARM);
-        pool.play(id, 1.0f, 1.0f, 1, 3, 1.0f);
+        pool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,
+                                       int status) {
+                soundPool.play(id, 1.0f, 1.0f, 1, 3, 1.0f);
+            }
+        });
+        //loudest(context, AudioManager.STREAM_ALARM);
+        //pool.play(id, 1.0f, 1.0f, 1, 3, 1.0f);
     }
 
     public static void loudest(Context context, int stream) {

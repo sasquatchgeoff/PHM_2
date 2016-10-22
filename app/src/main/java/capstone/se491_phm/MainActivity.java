@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
     private void initSensors(){
         sensors = new HashMap<>();
         //do not need to save reference for fall detector
-        //Detector.initiate(getContextMain());
+        Detector.initiate(getContextMain());
         StepCounter stepCounter = new StepCounter();
         stepCounter.initialize(mContext);
 
