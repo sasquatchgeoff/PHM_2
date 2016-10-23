@@ -25,7 +25,6 @@ import capstone.se491_phm.jobs.DailyActivityMonitorJob;
 import capstone.se491_phm.jobs.MoodDailyJob;
 import capstone.se491_phm.jobs.MoodSurvey;
 import capstone.se491_phm.jobs.WeeklyActivityMonitorJob;
-import capstone.se491_phm.login.Login;
 import capstone.se491_phm.sensors.ISensors;
 import capstone.se491_phm.sensors.StepCounter;
 
@@ -49,14 +48,14 @@ public class MainActivity extends Activity
         initSensors();
         createScheduleJobs();
 
-        Button button = (Button) findViewById(R.id.button);
+        /*Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
 
     }

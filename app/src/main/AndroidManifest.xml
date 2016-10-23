@@ -37,6 +37,9 @@
             android:label="@string/app_name"
             android:launchMode="singleTop" />
 
+
+        <!-- login activity ends -->
+
         <!-- questionnare activities start -->
         <activity android:name=".questionnaire.Mood">
             <intent-filter>
@@ -50,13 +53,7 @@
         </activity>
         <!-- questionnare activities end -->
 
-        <!-- login activity starts -->
-        <activity android:name=".login.Login">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
-        <!-- login activity ends -->
+
 
         <!-- feature list start -->
         <uses-feature

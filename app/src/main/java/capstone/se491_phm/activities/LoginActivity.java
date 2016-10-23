@@ -8,9 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import capstone.se491_phm.MainActivity;
 import capstone.se491_phm.R;
+
 
 /**
  * Created by Advait on 22-10-2016.
@@ -35,35 +34,10 @@ public class LoginActivity extends Activity {
         btnLinkToRegister = (Button) findViewById(R.id.btnLinkToRegisterScreen);
 
         // Progress dialog
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
+        //pDialog = new ProgressDialog(this);
+       // pDialog.setCancelable(false);
 
-        // Login button Click Event
-        btnLogin.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View view) {
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-
-                // Check for empty data in the form
-                if (!email.isEmpty() && !password.isEmpty()) {
-                    // login user
-                    /*
-                    checkLogin(email, password);
-                    Check this credentials into the db
-                     */
-                    Intent i = new Intent(getApplicationContext(),
-                            MainActivity.class);
-                    startActivity(i);
-                } else {
-                    // Prompt user to enter credentials
-                    Toast.makeText(getApplicationContext(),
-                            "Please enter the credentials!", Toast.LENGTH_LONG)
-                            .show();
-                }
-            }
-
-        });
 
         // Link to Register Screen
         btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
@@ -77,4 +51,36 @@ public class LoginActivity extends Activity {
         });
 
     }
+
+
+                // Login button Click Event
+    public void onLogin(View view) {
+        String email = inputEmail.getText().toString().trim();
+        String password = inputPassword.getText().toString().trim();
+        String type ="login";
+        // Check for empty data in the form
+        if (!email.isEmpty() && !password.isEmpty()) {
+            // login user
+                    /*
+                    checkLogin(email, password);
+                    Check this credentials into the db
+                     */
+
+            BackgroundWorker bLogin= new BackgroundWorker(this);
+            bLogin.execute(type, email ,password);
+
+            //Intent i = new Intent(getApplicationContext(),
+                //    MainActivity.class);
+           // startActivity(i);
+        } else {
+            // Prompt user to enter credentials
+            Toast.makeText(getApplicationContext(),
+                    "Please enter the credentials!", Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
 }
+
+
+

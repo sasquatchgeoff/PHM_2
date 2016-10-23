@@ -50,6 +50,7 @@
             android:layout_marginTop="20dip"
             android:background="@color/btn_login_bg"
             android:text="@string/btn_login"
+            android:onClick="onLogin"
             android:textColor="@color/btn_login" />
 
         <!-- Link to Login Screen -->
