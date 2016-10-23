@@ -1,9 +1,23 @@
 <resources>
-    <string name="app_name">SE491_PHM</string>
+    <string name="app_name">PHM</string>
     <string name="step_counter">
          android.hardware.sensor.stepcounter
     </string>
     <string name="step_detector">
          android.hardware.sensor.stepdetector
     </string>
+
+    <!-- Login and Registration -->
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Fullname</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="btn_register">REGISTER</string>
+    <string name="btn_link_to_register">Not a member? Sign up now.</string>
+    <string name="btn_link_to_login">Already registred! Login Me.</string>
+    <string name="welcome">Welcome</string>
+    <string name="btn_logout">LOGOUT</string>
+    <string name="name">Fullname</string>
+    <!-- Ends here -->
+
 </resources>
