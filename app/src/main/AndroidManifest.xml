@@ -8,7 +8,10 @@
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
     <!--ability to send text automatically-->
     <uses-permission android:name="android.permission.SEND_SMS"/>
+    <!--ability to access the database remotely-->
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>"
     <!--permissions end-->
+
 
     <application
         android:allowBackup="true"
@@ -36,6 +39,14 @@
             </intent-filter>
         </activity>
         <!-- questionnare activities end -->
+
+        <!-- login activity starts -->
+        <activity android:name=".login.Login">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <!-- login activity ends -->
 
         <!-- feature list start -->
         <uses-feature

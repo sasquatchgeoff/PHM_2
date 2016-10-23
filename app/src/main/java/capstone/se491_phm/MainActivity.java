@@ -13,6 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -23,10 +25,12 @@ import capstone.se491_phm.jobs.DailyActivityMonitorJob;
 import capstone.se491_phm.jobs.MoodDailyJob;
 import capstone.se491_phm.jobs.MoodSurvey;
 import capstone.se491_phm.jobs.WeeklyActivityMonitorJob;
+import capstone.se491_phm.login.Login;
 import capstone.se491_phm.sensors.ISensors;
 import capstone.se491_phm.sensors.StepCounter;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity
+        {
     static Context mContext;
     Map<String, ISensors> sensors;
     private AlarmManager alarmMgr;
@@ -44,6 +48,16 @@ public class MainActivity extends Activity {
 
         initSensors();
         createScheduleJobs();
+
+        Button button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 

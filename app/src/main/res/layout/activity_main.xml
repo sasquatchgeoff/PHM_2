@@ -15,4 +15,15 @@
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:id="@+id/helloWorld" />
+
+    <Button
+        android:text="login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/helloWorld"
+        android:layout_toEndOf="@+id/helloWorld"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="185dp"
+        android:onClick="onClick"
+        android:id="@+id/button" />
 </RelativeLayout>
