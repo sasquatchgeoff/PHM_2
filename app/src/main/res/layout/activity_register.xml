@@ -63,6 +63,7 @@
             android:layout_marginTop="20dip"
             android:background="#ea4c88"
             android:text="@string/btn_register"
+            android:onClick="onRegister"
             android:textColor="@color/white" />
 
         <!-- Link to Login Screen -->

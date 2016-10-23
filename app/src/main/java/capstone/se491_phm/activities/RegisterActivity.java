@@ -40,28 +40,7 @@ public class RegisterActivity extends Activity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-        // Register Button Click event
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                String name = inputFullName.getText().toString().trim();
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
 
-                if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                    /*
-                    registerUser(name, email, password);
-                    A method that takes user i/p from here and connect with database
-                     */
-                    Intent i = new Intent(getApplicationContext(),
-                            MainActivity.class);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Please enter your details!", Toast.LENGTH_LONG)
-                            .show();
-                }
-            }
-        });
 
         // Link to Login Screen
         btnLinkToLogin.setOnClickListener(new View.OnClickListener() {
@@ -75,4 +54,32 @@ public class RegisterActivity extends Activity {
         });
 
     }
+
+    // Register Button Click event
+        public void onRegister(View view) {
+            String name = inputFullName.getText().toString().trim();
+            String email = inputEmail.getText().toString().trim();
+            String password = inputPassword.getText().toString().trim();
+            String type="register";
+
+            if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
+                    /*
+                    registerUser(name, email, password);
+                    A method that takes user i/p from here and connect with database
+                     */
+
+                BackgroundWorker bLogin= new BackgroundWorker(this);
+                bLogin.execute(type, email ,password, name);
+
+
+              //  Intent i = new Intent(getApplicationContext(),
+                //        MainActivity.class);
+             //   startActivity(i);
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Please enter your details!", Toast.LENGTH_LONG)
+                        .show();
+            }
+        }
+
 }
