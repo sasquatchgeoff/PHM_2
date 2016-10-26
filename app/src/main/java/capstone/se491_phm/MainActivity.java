@@ -12,15 +12,20 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import capstone.se491_phm.activities.LoginActivity;
+import capstone.se491_phm.common.util.FileManager;
 import capstone.se491_phm.jobs.DailyActivityMonitorJob;
 import capstone.se491_phm.jobs.MoodDailyJob;
 import capstone.se491_phm.jobs.MoodSurvey;
@@ -28,8 +33,7 @@ import capstone.se491_phm.jobs.WeeklyActivityMonitorJob;
 import capstone.se491_phm.sensors.ISensors;
 import capstone.se491_phm.sensors.StepCounter;
 
-public class MainActivity extends Activity
-        {
+public class MainActivity extends Activity {
     static Context mContext;
     Map<String, ISensors> sensors;
     private AlarmManager alarmMgr;
@@ -104,11 +108,16 @@ public class MainActivity extends Activity
         //daily job to clear daily activity group
         alarmMgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
         Intent intentDailyActivity = new Intent(mContext, DailyActivityMonitorJob.class);
-        PendingIntent alarmIntentDailyActivity = PendingIntent.getBroadcast(mContext, 0, intentDailyActivity, 0);
-        alarmMgr.setRepeating(AlarmManager.RTC,
-                calendar.getTimeInMillis(),
-                1000*60*60*24, alarmIntentDailyActivity);
-        mAlarmIntents.put("dailyActivityMonitorJob",alarmIntentDailyActivity);
+        boolean alarmIntentDailyActivityActive = (PendingIntent.getBroadcast(mContext, 0,
+                intentDailyActivity, PendingIntent.FLAG_NO_CREATE) != null);
+        if (!alarmIntentDailyActivityActive)
+        {
+            PendingIntent alarmIntentDailyActivity = PendingIntent.getBroadcast(mContext, 0, intentDailyActivity, 0);
+            alarmMgr.setRepeating(AlarmManager.RTC,
+                    calendar.getTimeInMillis(),
+                    1000*60*60*24, alarmIntentDailyActivity);
+            mAlarmIntents.put("dailyActivityMonitorJob",alarmIntentDailyActivity);
+        }
 
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 30);
@@ -116,21 +125,30 @@ public class MainActivity extends Activity
         //weekly job to clear weekly activity group
         alarmMgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
         Intent intentWeeklyActivity = new Intent(mContext, WeeklyActivityMonitorJob.class);
-        PendingIntent alarmIntentWeeklyActivity = PendingIntent.getBroadcast(mContext, 0, intentWeeklyActivity, 0);
-        alarmMgr.setRepeating(AlarmManager.RTC,
-                calendar.getTimeInMillis(),
-                1000*60*60*24*7, alarmIntentWeeklyActivity);
-        mAlarmIntents.put("weeklyActivityMonitorJob",alarmIntentWeeklyActivity);
+        boolean alarmIntentWeeklyActivityActive = (PendingIntent.getBroadcast(mContext, 1,
+                intentWeeklyActivity, PendingIntent.FLAG_NO_CREATE) != null);
+        if (!alarmIntentWeeklyActivityActive)
+        {
+            PendingIntent alarmIntentWeeklyActivity = PendingIntent.getBroadcast(mContext, 1, intentWeeklyActivity, 0);
+            alarmMgr.setRepeating(AlarmManager.RTC,
+                    calendar.getTimeInMillis(),
+                    1000*60*60*24*7, alarmIntentWeeklyActivity);
+            mAlarmIntents.put("weeklyActivityMonitorJob",alarmIntentWeeklyActivity);
+        }
 
         //mood daily job
         alarmMgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
         Intent intentMoodDaily = new Intent(mContext, MoodDailyJob.class);
-        PendingIntent alarmIntentMoodDaily = PendingIntent.getBroadcast(mContext, 0, intentMoodDaily, 0);
-        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
-                AlarmManager.INTERVAL_DAY,
-                AlarmManager.INTERVAL_DAY, alarmIntentMoodDaily);
-        mAlarmIntents.put("moodDaily",alarmIntentMoodDaily);
-
+        boolean alarmIntentMoodDailyActive = (PendingIntent.getBroadcast(mContext, 2,
+                intentMoodDaily, PendingIntent.FLAG_NO_CREATE) != null);
+        if (!alarmIntentMoodDailyActive)
+        {
+            PendingIntent alarmIntentMoodDaily = PendingIntent.getBroadcast(mContext, 2, intentMoodDaily, 0);
+            alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
+                    AlarmManager.INTERVAL_DAY,
+                    AlarmManager.INTERVAL_DAY, alarmIntentMoodDaily);
+            mAlarmIntents.put("moodDaily",alarmIntentMoodDaily);
+        }
 
         //start time for mood survey
         calendar.set(Calendar.HOUR_OF_DAY, 12);
@@ -140,11 +158,16 @@ public class MainActivity extends Activity
         //weekly mood survey
         alarmMgr = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
         Intent intentWeeklySurvey = new Intent(mContext, MoodSurvey.class);
-        PendingIntent alarmIntentMoodSurvey = PendingIntent.getBroadcast(mContext, 0, intentWeeklySurvey, 0);
-        alarmMgr.setInexactRepeating(AlarmManager.RTC,
-                calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY*7, alarmIntentMoodSurvey);
-        mAlarmIntents.put("moodSurvey",alarmIntentMoodSurvey);
+        boolean alarmIntentMoodSurveyActive = (PendingIntent.getBroadcast(mContext, 2,
+                intentMoodDaily, PendingIntent.FLAG_NO_CREATE) != null);
+        if (!alarmIntentMoodSurveyActive)
+        {
+            PendingIntent alarmIntentMoodSurvey = PendingIntent.getBroadcast(mContext, 3, intentWeeklySurvey, 0);
+            alarmMgr.setInexactRepeating(AlarmManager.RTC,
+                    calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY*7, alarmIntentMoodSurvey);
+            mAlarmIntents.put("moodSurvey",alarmIntentMoodSurvey);
+        }
     }
 
     public Context getContextMain(){
@@ -152,5 +175,12 @@ public class MainActivity extends Activity
             mContext = getBaseContext();
         }
         return mContext;
+    }
+
+    public void showWebPortal(View view) {
+        setContentView(R.layout.activity_login);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
