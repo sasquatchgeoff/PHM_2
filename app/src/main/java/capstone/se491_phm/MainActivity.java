@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import java.io.File;
 import java.io.IOException;
@@ -182,5 +183,26 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void activitySwitch(View view) {
+        Switch switch1 = (Switch) findViewById(R.id.activitySwitch);
+        if(switch1.isChecked()){
+            sensors.get("stepCounter").initialize(mContext);
+        } else {
+            sensors.get("stepCounter").stopMonitoring(view);
+        }
+    }
+    public void fallSwitch(View view) {
+        Switch switch1 = (Switch) findViewById(R.id.fallSwitch);
+        if(switch1.isChecked()){
+            Alarm.fallMonitoringOn = true;
+        } else {
+            Alarm.fallMonitoringOn = false;
+        }
+    }
+    public void externalSwitch(View view) {
+        Switch switch1 = (Switch) findViewById(R.id.externalSwitch);
+
     }
 }

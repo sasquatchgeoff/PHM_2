@@ -38,6 +38,7 @@ public class Alarm {
     private static boolean mSmsEscalation;
     public static boolean mUserAckAlarm;
     private static CountDownTimer mTimer;
+    public static boolean fallMonitoringOn = true;
 
     @SuppressWarnings("deprecation")
     public static void siren(Context context) {
@@ -76,33 +77,35 @@ public class Alarm {
     }
 
     public static void call(final Context context) {
-        mUserAckAlarm = false;
-        mSmsEscalation = false;
+        if (fallMonitoringOn){
+            mUserAckAlarm = false;
+            mSmsEscalation = false;
 
-        siren(context);
+            siren(context);
 
-        //Code commented temporary until full integration
-//        mTimer = showTimer(context, 1000*60*2);
+            //Code commented temporary until full integration
+//            mTimer = showTimer(context, 1000*60*2);
 //
-//        Thread smsThread = new Thread() {
-//            @Override
-//            public void run() {
-//                try {
-//                    sleep(1000*60*2);//sleep for 2 minute
-//                    int tried = 1;
-//                    do {
-//                        if(mSmsEscalation) {
-//                            sendSMS(context);
-//                        }
-//                        sleep(1000 * 10);//sleep ten sec and check again
-//                    }while(tried != 2);
+//            Thread smsThread = new Thread() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        sleep(1000*60*2);//sleep for 2 minute
+//                        int tried = 1;
+//                        do {
+//                            if(mSmsEscalation) {
+//                                sendSMS(context);
+//                            }
+//                            sleep(1000 * 10);//sleep ten sec and check again
+//                        }while(tried != 2);
 //
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
 //                }
-//            }
-//        };
-//        smsThread.start();
+//            };
+//            smsThread.start();
+        }
     }
 
     public static CountDownTimer showTimer(final Context context, long countDownFrom){

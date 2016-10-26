@@ -78,8 +78,15 @@ public class StepCounter implements SensorEventListener,ISensors {
                 mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
                 initialized = true;
                 //Input parameter is being ignored so null is fine
-                startStepMonitoring(null);
+                startMonitoring(null);
             }
+        } else {
+            //unregister before registering
+            mSensorManager.unregisterListener(this, mStepCounterSensor);
+            mSensorManager.unregisterListener(this, mStepDetectorSensor);
+            //register because sensors have already been initialized
+            mSensorManager.registerListener(this, mStepCounterSensor, SensorManager.SENSOR_DELAY_FASTEST);
+            mSensorManager.registerListener(this, mStepDetectorSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }
         return initialized;
     }
@@ -196,14 +203,14 @@ public class StepCounter implements SensorEventListener,ISensors {
      * Must call initialize before using this method to restart monitoring after stopping
      * @param view
      */
-    public void startStepMonitoring(View view){
+    public void startMonitoring(View view){
         if(initialized) {
             //textView_monitor.setText("Monitoring On");
             mSensorManager.registerListener(this, mStepCounterSensor, SensorManager.SENSOR_DELAY_FASTEST);
             mSensorManager.registerListener(this, mStepDetectorSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }
     }
-    public void stopStepMonitoring(View view){
+    public void stopMonitoring(View view){
         //textView_monitor.setText("Monitoring Off");
         mSensorManager.unregisterListener(this, mStepCounterSensor);
         mSensorManager.unregisterListener(this, mStepDetectorSensor);

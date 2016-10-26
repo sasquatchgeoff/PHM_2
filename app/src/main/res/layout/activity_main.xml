@@ -26,4 +26,34 @@
         android:textAllCaps="false"
         android:onClick="showWebPortal"/>
 
+    <Switch
+        android:text="External Sensors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fallSwitch"
+        android:layout_alignParentStart="true"
+        android:id="@+id/externalSwitch"
+        android:layout_alignParentEnd="true"
+        android:onClick="externalSwitch"/>
+
+    <Switch
+        android:text="Fall Monitoring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fallSwitch"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="fallSwitch"/>
+
+    <Switch
+        android:text="Activity Monitor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activitySwitch"
+        android:layout_above="@+id/fallSwitch"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="activitySwitch"/>
+
 </RelativeLayout>
