@@ -8,8 +8,12 @@
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
     <!--ability to send text automatically-->
     <uses-permission android:name="android.permission.SEND_SMS"/>
+    <!--ability to use gms-->
+    <uses-permission android:name="capstone.se491_phm.permission.C2D_MESSAGE"/>
+    <!--ability to receive gms message-->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <!--ability to access the database remotely-->
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>"
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <!--permissions end-->
 
 
@@ -18,7 +22,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name="android.support.multidex.MultiDexApplication">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,7 +67,7 @@
             android:name="@string/step_counter" android:required="false"/>
         <!-- feature list end -->
 
-        <!--shcedule job receivers start -->
+        <!--schedule job receivers start -->
         <receiver
             android:name=".jobs.DailyActivityMonitorJob"
             android:exported="true"
@@ -83,6 +88,40 @@
             android:exported="true"
             android:enabled="true">
         </receiver>
-        <!--shcedule job receivers end -->
+        <!--schedule job receivers end -->
+
+        <!--google messaging service receivers start-->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="capstone.se491_phm" />
+            </intent-filter>
+        </receiver>
+        <!--google messaging service receivers end-->
+
+        <!--google messaging service services start-->
+        <service
+            android:name=".gcm.PhmGcmListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".gcm.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".gcm.RegistrationIntentService"
+            android:exported="false">
+        </service>
+        <!--google messaging service services end-->
+
     </application>
 </manifest>

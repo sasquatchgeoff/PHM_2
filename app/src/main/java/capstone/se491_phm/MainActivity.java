@@ -11,7 +11,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +29,7 @@ import java.util.Map;
 
 import capstone.se491_phm.activities.LoginActivity;
 import capstone.se491_phm.common.util.FileManager;
+import capstone.se491_phm.gcm.RegistrationIntentService;
 import capstone.se491_phm.jobs.DailyActivityMonitorJob;
 import capstone.se491_phm.jobs.MoodDailyJob;
 import capstone.se491_phm.jobs.MoodSurvey;
@@ -36,33 +39,30 @@ import capstone.se491_phm.sensors.StepCounter;
 
 public class MainActivity extends Activity {
     static Context mContext;
-    Map<String, ISensors> sensors;
+    Map<String, ISensors> sensors = new HashMap<>();
     private AlarmManager alarmMgr;
     private Map<String,PendingIntent> mAlarmIntents = new HashMap<String,PendingIntent>();
     public static NotificationManager mNotificationManager;
+    public static final String PREFS_NAME = "PhmPrefsFile";
+    public static SharedPreferences sharedPreferences = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = getBaseContext();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         //cancel all notification created by the app
         mNotificationManager =(NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
+        //register for gcm
+        Intent intent = new Intent(this, RegistrationIntentService.class);
+        startService(intent);
+        //init sensors
         initSensors();
+        //create all jobs
         createScheduleJobs();
-
-        /*Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Login.class);
-                startActivity(intent);
-            }
-        });*/
-
-
     }
 
     /**
@@ -78,7 +78,6 @@ public class MainActivity extends Activity {
     }
 
     private void initSensors(){
-        sensors = new HashMap<>();
         //do not need to save reference for fall detector
         Detector.initiate(getContextMain());
         StepCounter stepCounter = new StepCounter();
@@ -86,6 +85,12 @@ public class MainActivity extends Activity {
 
         //add all initialized sensors
         sensors.put("stepCounter",stepCounter);
+
+        if(sharedPreferences != null) {
+            ((Switch) findViewById(R.id.activitySwitch)).setChecked(sharedPreferences.getBoolean("activitySwitch", true));
+            ((Switch) findViewById(R.id.fallSwitch)).setChecked(sharedPreferences.getBoolean("fallSwitch", true));
+            ((Switch) findViewById(R.id.externalSwitch)).setChecked(sharedPreferences.getBoolean("externalSwitch", true));
+        }
     }
 
     /**
@@ -187,22 +192,36 @@ public class MainActivity extends Activity {
 
     public void activitySwitch(View view) {
         Switch switch1 = (Switch) findViewById(R.id.activitySwitch);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         if(switch1.isChecked()){
             sensors.get("stepCounter").initialize(mContext);
+            editor.putBoolean("activitySwitch", true);
         } else {
             sensors.get("stepCounter").stopMonitoring(view);
+            editor.putBoolean("activitySwitch", false);
         }
+        editor.commit();
     }
     public void fallSwitch(View view) {
         Switch switch1 = (Switch) findViewById(R.id.fallSwitch);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         if(switch1.isChecked()){
             Alarm.fallMonitoringOn = true;
+            editor.putBoolean("fallSwitch", true);
         } else {
             Alarm.fallMonitoringOn = false;
+            editor.putBoolean("fallSwitch", false);
         }
+        editor.commit();
     }
     public void externalSwitch(View view) {
         Switch switch1 = (Switch) findViewById(R.id.externalSwitch);
-
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if(switch1.isChecked()){
+            editor.putBoolean("externalSwitch", true);
+        } else {
+            editor.putBoolean("externalSwitch", false);
+        }
+        editor.commit();
     }
 }
