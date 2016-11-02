@@ -14,26 +14,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import capstone.se491_phm.activities.LoginActivity;
-import capstone.se491_phm.common.util.FileManager;
 import capstone.se491_phm.gcm.RegistrationIntentService;
 import capstone.se491_phm.jobs.DailyActivityMonitorJob;
 import capstone.se491_phm.jobs.MoodDailyJob;
 import capstone.se491_phm.jobs.MoodSurvey;
 import capstone.se491_phm.jobs.WeeklyActivityMonitorJob;
+import capstone.se491_phm.sensors.ExternalSensorClient;
 import capstone.se491_phm.sensors.ISensors;
 import capstone.se491_phm.sensors.StepCounter;
 
@@ -56,6 +50,9 @@ public class MainActivity extends Activity {
         mNotificationManager =(NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
+        //start the external sensor client service
+        //Intent intent = new Intent(this, ExternalSensorClient.class);
+        //startService(intent);
         //register for gcm
         Intent intent = new Intent(this, RegistrationIntentService.class);
         startService(intent);
