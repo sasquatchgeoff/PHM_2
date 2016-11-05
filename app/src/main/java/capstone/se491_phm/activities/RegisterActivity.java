@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import capstone.se491_phm.MainActivity;
 import capstone.se491_phm.R;
+import capstone.se491_phm.common.util.BackgroundWorker;
 
 /**
  * Created by Advait on 22-10-2016.
