@@ -48,8 +48,6 @@ public class MainActivity extends Activity {
     public static SharedPreferences sharedPreferences = null;
     public static Map<String, Intent> runningServices = new HashMap<>();
 
-    private TextView output;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +57,6 @@ public class MainActivity extends Activity {
         //cancel all notification created by the app
         mNotificationManager =(NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
-        output = (TextView) findViewById(R.id.textView);
 
         if(sharedPreferences.getBoolean(Constants.SHOW_RESET_CONN_PREF, false)){
             ((Button) findViewById(R.id.resetConnPref)).setVisibility(View.VISIBLE);
