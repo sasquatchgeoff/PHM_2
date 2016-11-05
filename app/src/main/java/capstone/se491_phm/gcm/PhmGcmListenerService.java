@@ -24,9 +24,11 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -34,6 +36,10 @@ import com.google.android.gms.gcm.GcmListenerService;
 
 import capstone.se491_phm.R;
 import capstone.se491_phm.MainActivity;
+import capstone.se491_phm.common.Constants;
+import capstone.se491_phm.sensors.ExternalSensorActivity;
+
+import static capstone.se491_phm.MainActivity.sharedPreferences;
 
 public class PhmGcmListenerService extends GcmListenerService {
 
@@ -86,6 +92,12 @@ public class PhmGcmListenerService extends GcmListenerService {
         Context context = getBaseContext();
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.SERVER_IP,message);
+        editor.putBoolean(Constants.SERVER_VERIFIED, false);
+        editor.commit();
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.notification)
@@ -93,7 +105,7 @@ public class PhmGcmListenerService extends GcmListenerService {
                         .setContentText("A connection request has been made from this ip: "+message+". Click to allow connection")
                         .setSound(defaultSoundUri);
         // Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(context, MainActivity.class);
+        Intent resultIntent = new Intent(context, ExternalSensorActivity.class);
 
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
@@ -101,7 +113,7 @@ public class PhmGcmListenerService extends GcmListenerService {
         // your application to the Home screen.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addParentStack(ExternalSensorActivity.class);
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =

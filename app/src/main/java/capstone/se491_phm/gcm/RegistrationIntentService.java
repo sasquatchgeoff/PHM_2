@@ -30,7 +30,9 @@ import com.google.android.gms.iid.InstanceID;
 
 import java.io.IOException;
 
+import capstone.se491_phm.MainActivity;
 import capstone.se491_phm.R;
+import capstone.se491_phm.common.Constants;
 
 public class RegistrationIntentService extends IntentService {
 
@@ -55,7 +57,7 @@ public class RegistrationIntentService extends IntentService {
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
             // [END get_token]
             Log.i(TAG, "GCM Registration Token: " + token);
-
+            MainActivity.sharedPreferences.edit().putString(Constants.REGISTRATION_TOKEN,token).commit();
             // TODO: Implement this method to send any registration to your app's servers.
             sendRegistrationToServer(token);
 
