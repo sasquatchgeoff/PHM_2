@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import capstone.se491_phm.activities.LoginActivity;
+import capstone.se491_phm.common.util.BackgroundWorker;
 import capstone.se491_phm.common.Constants;
 import capstone.se491_phm.gcm.RegistrationIntentService;
 import capstone.se491_phm.jobs.DailyActivityMonitorJob;
@@ -47,6 +48,8 @@ public class MainActivity extends Activity {
     public static SharedPreferences sharedPreferences = null;
     public static Map<String, Intent> runningServices = new HashMap<>();
 
+    private TextView output;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,7 @@ public class MainActivity extends Activity {
         //cancel all notification created by the app
         mNotificationManager =(NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
+        output = (TextView) findViewById(R.id.textView);
 
         if(sharedPreferences.getBoolean(Constants.SHOW_RESET_CONN_PREF, false)){
             ((Button) findViewById(R.id.resetConnPref)).setVisibility(View.VISIBLE);
@@ -72,6 +76,7 @@ public class MainActivity extends Activity {
         //create all jobs
         createScheduleJobs();
     }
+
 
     /**
      * Called when app is killed
