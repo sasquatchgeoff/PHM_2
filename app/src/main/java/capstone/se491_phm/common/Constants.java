@@ -34,4 +34,11 @@ public class Constants {
     public static int getDailyMoodDefault() {
         return 2;
     }
+
+    public static final String SERVER_VERIFIED = "serverVerified";
+    public static final String SERVER_IP = "serverIp";
+    public static final String EXTERNAL_SENSOR_CLIENT_SERVICE_NAME = "ExternalSensorClient";
+    public static final String EXTERNAL_SENSOR_AUTH_STRING = "externalAuthString";
+    public static final String REGISTRATION_TOKEN = "registrationToken";
+    public static final String SHOW_RESET_CONN_PREF = "showResetExtConnectionPref";
 }

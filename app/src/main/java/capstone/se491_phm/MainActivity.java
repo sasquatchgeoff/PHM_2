@@ -9,40 +9,44 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import capstone.se491_phm.activities.LoginActivity;
 import capstone.se491_phm.common.util.BackgroundWorker;
+import capstone.se491_phm.common.Constants;
 import capstone.se491_phm.gcm.RegistrationIntentService;
 import capstone.se491_phm.jobs.DailyActivityMonitorJob;
 import capstone.se491_phm.jobs.MoodDailyJob;
 import capstone.se491_phm.jobs.MoodSurvey;
 import capstone.se491_phm.jobs.WeeklyActivityMonitorJob;
+import capstone.se491_phm.sensors.ExternalSensorActivity;
 import capstone.se491_phm.sensors.ExternalSensorClient;
 import capstone.se491_phm.sensors.ISensors;
 import capstone.se491_phm.sensors.StepCounter;
 
 public class MainActivity extends Activity {
-    static Context mContext;
+    public static Context mContext;
     Map<String, ISensors> sensors = new HashMap<>();
     private AlarmManager alarmMgr;
     private Map<String,PendingIntent> mAlarmIntents = new HashMap<String,PendingIntent>();
     public static NotificationManager mNotificationManager;
-    public static final String PREFS_NAME = "PhmPrefsFile";
     public static SharedPreferences sharedPreferences = null;
-
-
+    public static Map<String, Intent> runningServices = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,9 @@ public class MainActivity extends Activity {
         mNotificationManager =(NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
+        if(sharedPreferences.getBoolean(Constants.SHOW_RESET_CONN_PREF, false)){
+            ((Button) findViewById(R.id.resetConnPref)).setVisibility(View.VISIBLE);
+        }
 
         //start the external sensor client service
         //Intent intent = new Intent(this, ExternalSensorClient.class);
@@ -68,13 +75,6 @@ public class MainActivity extends Activity {
     }
 
 
-    public void onSave(View v)
-    {
-
-        String type= "update";
-        BackgroundWorker GCMWorker= new BackgroundWorker(this);
-        GCMWorker.execute(type,"deviceID" ,"registrationTokenUpdated");
-    }
     /**
      * Called when app is killed
      */
@@ -88,18 +88,33 @@ public class MainActivity extends Activity {
     }
 
     private void initSensors(){
-        //do not need to save reference for fall detector
-        Detector.initiate(getContextMain());
-        StepCounter stepCounter = new StepCounter();
-        stepCounter.initialize(mContext);
-
-        //add all initialized sensors
-        sensors.put("stepCounter",stepCounter);
-
         if(sharedPreferences != null) {
             ((Switch) findViewById(R.id.activitySwitch)).setChecked(sharedPreferences.getBoolean("activitySwitch", true));
+            if(sharedPreferences.getBoolean("activitySwitch", true)){
+                StepCounter stepCounter = new StepCounter();
+                stepCounter.initialize(mContext);
+                //add all initialized sensors
+                sensors.put("stepCounter",stepCounter);
+            }
+
             ((Switch) findViewById(R.id.fallSwitch)).setChecked(sharedPreferences.getBoolean("fallSwitch", true));
-            ((Switch) findViewById(R.id.externalSwitch)).setChecked(sharedPreferences.getBoolean("externalSwitch", true));
+            if(sharedPreferences.getBoolean("fallSwitch", true)){
+                //do not need to save reference for fall detector
+                Detector.initiate(getContextMain());
+            }
+
+            //does not make sense to turn on external monitoring by default since additional setup is required
+            ((Switch) findViewById(R.id.externalSwitch)).setChecked(sharedPreferences.getBoolean("externalSwitch", false));
+            if(sharedPreferences.getBoolean("externalSwitch", false)){
+                if(sharedPreferences.getBoolean(Constants.SERVER_VERIFIED,false) &&
+                        !sharedPreferences.getBoolean(Constants.SHOW_RESET_CONN_PREF,false)) {
+                    Intent intent = new Intent(this, ExternalSensorClient.class);
+                    startService(intent);
+                    (findViewById(R.id.externalSensorViewbtn)).setVisibility(View.VISIBLE);
+                } else {
+                    ((Switch) findViewById(R.id.externalSwitch)).setChecked(false);
+                }
+            }
         }
     }
 
@@ -200,6 +215,21 @@ public class MainActivity extends Activity {
         finish();
     }
 
+    public void showExternalSensorView(View view) {
+        setContentView(R.layout.ext_monitoring_session);
+        Intent intent = new Intent(this, ExternalSensorActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void resetExternalSensorConnPref(View view) {
+        ((Button) findViewById(R.id.resetConnPref)).setVisibility(View.INVISIBLE);
+        ((TextView) findViewById(R.id.externalSensorAuthString)).setVisibility(View.INVISIBLE);
+        sharedPreferences.edit().putBoolean(Constants.SERVER_VERIFIED,false).commit();
+        prepareForExternalMonitoring();
+        ((Switch) findViewById(R.id.externalSwitch)).setChecked(true);
+    }
+
     public void activitySwitch(View view) {
         Switch switch1 = (Switch) findViewById(R.id.activitySwitch);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -226,12 +256,77 @@ public class MainActivity extends Activity {
     }
     public void externalSwitch(View view) {
         Switch switch1 = (Switch) findViewById(R.id.externalSwitch);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         if(switch1.isChecked()){
-            editor.putBoolean("externalSwitch", true);
+            ((Button) findViewById(R.id.resetConnPref)).setVisibility(View.INVISIBLE);
+            (findViewById(R.id.externalSensorViewbtn)).setVisibility(View.VISIBLE);
+            prepareForExternalMonitoring();
         } else {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("externalSwitch", false);
+            Intent intent = runningServices.get(Constants.EXTERNAL_SENSOR_CLIENT_SERVICE_NAME);
+            if (intent != null) {
+                stopService(intent);
+                runningServices.remove(Constants.EXTERNAL_SENSOR_CLIENT_SERVICE_NAME);
+            }
+            TextView externalAuthString = (TextView) findViewById(R.id.externalSensorAuthString);
+            externalAuthString.setVisibility(View.INVISIBLE);
+            (findViewById(R.id.externalSensorViewbtn)).setVisibility(View.INVISIBLE);
+            editor.commit();
         }
-        editor.commit();
+    }
+
+    private void prepareForExternalMonitoring(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(Constants.SHOW_RESET_CONN_PREF,false);
+        if(sharedPreferences.getBoolean(Constants.SERVER_VERIFIED,false)) {
+            editor.putBoolean("externalSwitch", true);
+            editor.commit();
+            showExternalSensorView(null);
+        } else {
+            editor.putBoolean("externalSwitch", true);
+            TextView externalAuthString = (TextView) findViewById(R.id.externalSensorAuthString);
+            String uniqueInstallId = sharedPreferences.getString(Constants.EXTERNAL_SENSOR_AUTH_STRING,"");
+            if("".equals(uniqueInstallId)){
+                uniqueInstallId = UUID.randomUUID().toString();
+                //try db to make sure key is unique
+                //if unique
+                //saveToDb(uniqueInstallId,sharedPreferences.getString(Constants.REGISTRATION_TOKEN,""));
+                editor.putString(Constants.EXTERNAL_SENSOR_AUTH_STRING,uniqueInstallId);
+            }
+            externalAuthString.setText(uniqueInstallId);
+            externalAuthString.setVisibility(View.VISIBLE);
+            editor.commit();
+        }
+    }
+
+    public static void notifyUserNoServerConnection(){
+        if(mContext!=null){
+            PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.SHOW_RESET_CONN_PREF,true).commit();
+        }
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(mContext)
+                        .setSmallIcon(R.drawable.notification)
+                        .setContentTitle("Connection Issue")
+                        .setContentText("Unable to reconnect to external sensors using previous setting, please try again or reset");
+        // Creates an explicit intent for an Activity in your app
+        Intent resultIntent = new Intent(mContext, MainActivity.class);
+
+        // The stack builder object will contain an artificial back stack for the
+        // started Activity.
+        // This ensures that navigating backward from the Activity leads out of
+        // your application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
+        // Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(MainActivity.class);
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        // mId allows you to update the notification later on.
+        MainActivity.mNotificationManager.notify(3, mBuilder.build());
     }
 }
