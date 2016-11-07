@@ -56,4 +56,15 @@
         android:layout_alignParentEnd="true"
         android:onClick="activitySwitch"/>
 
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/helloWorld"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="63dp"
+        android:onClick="onSave"
+        android:id="@+id/button2" />
+
 </RelativeLayout>

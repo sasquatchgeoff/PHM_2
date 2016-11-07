@@ -137,7 +137,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else if (type.equals("save"))
+        }else if (type.equals("save") || type.equals("update"))
         {
             try{
                 String deviceid=params[1];
@@ -151,7 +151,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 OutputStream outputStream=httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter= new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
                 String post_data= URLEncoder.encode("deviceid","UTF-8")+"="+URLEncoder.encode(deviceid,"UTF-8")+"&"
-                        +URLEncoder.encode("regToken","UTF-8")+"="+URLEncoder.encode(regToken,"UTF-8");
+                        +URLEncoder.encode("regToken","UTF-8")+"="+URLEncoder.encode(regToken,"UTF-8")+"&"
+                        +URLEncoder.encode("type","UTF-8")+"="+URLEncoder.encode(type,"UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();

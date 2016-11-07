@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
     public static final String PREFS_NAME = "PhmPrefsFile";
     public static SharedPreferences sharedPreferences = null;
 
-    private TextView output;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
         //cancel all notification created by the app
         mNotificationManager =(NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
-        output = (TextView) findViewById(R.id.textView);
+
 
         //start the external sensor client service
         //Intent intent = new Intent(this, ExternalSensorClient.class);
@@ -68,6 +68,13 @@ public class MainActivity extends Activity {
     }
 
 
+    public void onSave(View v)
+    {
+
+        String type= "update";
+        BackgroundWorker GCMWorker= new BackgroundWorker(this);
+        GCMWorker.execute(type,"deviceID" ,"registrationTokenUpdated");
+    }
     /**
      * Called when app is killed
      */
