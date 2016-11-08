@@ -217,7 +217,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
         }else if (type.equals("getID"))
         {
             try{
-                String token=params[1];
+                String deviceid=params[1];
 
                 URL url= new URL(getID_URL);
                 HttpURLConnection httpURLConnection=(HttpURLConnection) url.openConnection();
@@ -226,7 +226,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream=httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter= new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-                String post_data= URLEncoder.encode("token","UTF-8")+"="+URLEncoder.encode(token,"UTF-8");
+                String post_data= URLEncoder.encode("deviceid","UTF-8")+"="+URLEncoder.encode(deviceid,"UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
