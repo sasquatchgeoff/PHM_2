@@ -285,15 +285,31 @@ public class MainActivity extends Activity {
         } else {
             editor.putBoolean("externalSwitch", true);
             TextView externalAuthString = (TextView) findViewById(R.id.externalSensorAuthString);
-            String uniqueInstallId = sharedPreferences.getString(Constants.EXTERNAL_SENSOR_AUTH_STRING,"");
-            if("".equals(uniqueInstallId)){
-                uniqueInstallId = UUID.randomUUID().toString();
+            String authString = sharedPreferences.getString(Constants.EXTERNAL_SENSOR_AUTH_STRING,"");
+            String uniqueInstallId = uniqueInstallId = UUID.randomUUID().toString();
+            BackgroundWorker GCMWorker = new BackgroundWorker(this);
+            if("".equals(authString)){
                 //try db to make sure key is unique
-                //if unique
+                GCMWorker.execute("getID", uniqueInstallId);
+                String id = GCMWorker.getResult();
+                if(id==null || (id != null && "get data failed".equals(id))){
+                    //save
+                    if(!sharedPreferences.getString(Constants.REGISTRATION_TOKEN,"").isEmpty()){
+                        GCMWorker= new BackgroundWorker(this);
+                        GCMWorker.execute("save",uniqueInstallId ,sharedPreferences.getString(Constants.REGISTRATION_TOKEN,""));
+
+                        GCMWorker= new BackgroundWorker(this);
+                        GCMWorker.execute("getID", uniqueInstallId);
+                        authString = GCMWorker.getResult();
+                    }
+                }
                 //saveToDb(uniqueInstallId,sharedPreferences.getString(Constants.REGISTRATION_TOKEN,""));
-                editor.putString(Constants.EXTERNAL_SENSOR_AUTH_STRING,uniqueInstallId);
+                editor.putString(Constants.EXTERNAL_SENSOR_AUTH_STRING,authString);
+            } else {
+                //update
+                GCMWorker.execute("update",uniqueInstallId ,sharedPreferences.getString(Constants.REGISTRATION_TOKEN,""));
             }
-            externalAuthString.setText(uniqueInstallId);
+            externalAuthString.setText(authString);
             externalAuthString.setVisibility(View.VISIBLE);
             editor.commit();
         }
