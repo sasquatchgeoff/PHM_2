@@ -285,6 +285,7 @@ public class MainActivity extends Activity {
         } else {
             editor.putBoolean("externalSwitch", true);
             TextView externalAuthString = (TextView) findViewById(R.id.externalSensorAuthString);
+            //if auth string already exist then use it and update the registration token
             String authString = sharedPreferences.getString(Constants.EXTERNAL_SENSOR_AUTH_STRING,"");
             String uniqueInstallId = uniqueInstallId = UUID.randomUUID().toString();
             BackgroundWorker GCMWorker = new BackgroundWorker(this);
