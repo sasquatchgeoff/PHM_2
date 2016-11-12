@@ -34,11 +34,26 @@ import capstone.se491_phm.jobs.DailyActivityMonitorJob;
 import capstone.se491_phm.jobs.MoodDailyJob;
 import capstone.se491_phm.jobs.MoodSurvey;
 import capstone.se491_phm.jobs.WeeklyActivityMonitorJob;
+import capstone.se491_phm.location.GPS_Service;
 import capstone.se491_phm.sensors.ExternalSensorActivity;
 import capstone.se491_phm.sensors.ExternalSensorClient;
 import capstone.se491_phm.sensors.FallViewSettingActivity;
 import capstone.se491_phm.sensors.ISensors;
 import capstone.se491_phm.sensors.StepCounter;
+
+
+
+
+import android.Manifest;
+
+import android.content.pm.PackageManager;
+import android.os.Build;
+
+import android.support.annotation.NonNull;
+
+import android.support.v4.content.ContextCompat;
+
+
 
 public class MainActivity extends Activity {
     public static Context mContext;
@@ -49,10 +64,21 @@ public class MainActivity extends Activity {
     public static SharedPreferences sharedPreferences = null;
     public static Map<String, Intent> runningServices = new HashMap<>();
 
+    private Button btn_start;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        // For share location button
+        btn_start = (Button) findViewById(R.id.btn_share);
+        if(!runtime_permissions())
+        {
+            enable_buttons();
+        }
+
         mContext = getBaseContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         //cancel all notification created by the app
@@ -62,6 +88,9 @@ public class MainActivity extends Activity {
         if(sharedPreferences.getBoolean(Constants.SHOW_RESET_CONN_PREF, false)){
             ((Button) findViewById(R.id.resetConnPref)).setVisibility(View.VISIBLE);
         }
+
+
+
 
         //start the external sensor client service
         //Intent intent = new Intent(this, ExternalSensorClient.class);
@@ -357,4 +386,46 @@ public class MainActivity extends Activity {
         // mId allows you to update the notification later on.
         MainActivity.mNotificationManager.notify(3, mBuilder.build());
     }
+
+
+
+    private void enable_buttons() {
+
+        btn_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Intent i =new Intent(getApplicationContext(),GPS_Service.class);
+                startService(i);
+            }
+        });
+
+    }
+
+
+    private boolean runtime_permissions() {
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.SEND_SMS},100);
+
+            return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 100){
+            if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+                enable_buttons();
+            }else {
+                runtime_permissions();
+            }
+        }
+    }
+
+
 }
