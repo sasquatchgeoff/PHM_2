@@ -41,4 +41,5 @@ public class Constants {
     public static final String EXTERNAL_SENSOR_AUTH_STRING = "externalAuthString";
     public static final String REGISTRATION_TOKEN = "registrationToken";
     public static final String SHOW_RESET_CONN_PREF = "showResetExtConnectionPref";
+    public static final String EMERGENCY_CONTACT = "emergencyContact";
 }

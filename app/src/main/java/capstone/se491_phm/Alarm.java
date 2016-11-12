@@ -27,10 +27,13 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.widget.Toast;
 
 import java.util.concurrent.TimeUnit;
+
+import capstone.se491_phm.common.Constants;
 
 public class Alarm {
     private static SoundPool pool = null;
@@ -68,12 +71,16 @@ public class Alarm {
 
     public static void sendSMS(Context context){
         //TODO need to get number from user
-        String phoneNumber="";
-        String message="Hello World!";
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, null, null);
-        // Show the toast
-        Toast.makeText(context, "SMS Sent", Toast.LENGTH_LONG).show();
+        String phoneNumber= PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.EMERGENCY_CONTACT, "");
+        if(!"".equals(phoneNumber)){
+            String message="Help I have fallen and can't get up!";
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage(phoneNumber, null, message, null, null);
+            // Show the toast
+            Toast.makeText(context, "SMS Sent", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context, "Unable to send SMS. Missing number.", Toast.LENGTH_LONG).show();
+        }
     }
 
     public static void call(final Context context) {
@@ -81,7 +88,8 @@ public class Alarm {
             mUserAckAlarm = false;
             mSmsEscalation = false;
 
-            siren(context);
+            sendSMS(context);
+            //siren(context);
 
             //Code commented temporary until full integration
 //            mTimer = showTimer(context, 1000*60*2);

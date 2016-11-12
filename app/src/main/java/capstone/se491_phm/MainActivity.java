@@ -36,6 +36,7 @@ import capstone.se491_phm.jobs.MoodSurvey;
 import capstone.se491_phm.jobs.WeeklyActivityMonitorJob;
 import capstone.se491_phm.sensors.ExternalSensorActivity;
 import capstone.se491_phm.sensors.ExternalSensorClient;
+import capstone.se491_phm.sensors.FallViewSettingActivity;
 import capstone.se491_phm.sensors.ISensors;
 import capstone.se491_phm.sensors.StepCounter;
 
@@ -97,11 +98,14 @@ public class MainActivity extends Activity {
                 sensors.put("stepCounter",stepCounter);
             }
 
-            ((Switch) findViewById(R.id.fallSwitch)).setChecked(sharedPreferences.getBoolean("fallSwitch", true));
-            if(sharedPreferences.getBoolean("fallSwitch", true)){
-                //do not need to save reference for fall detector
-                Detector.initiate(getContextMain());
+            ((Switch) findViewById(R.id.fallSwitch)).setChecked(sharedPreferences.getBoolean("fallSwitch", false));
+            if(sharedPreferences.getBoolean("fallSwitch", false)) {
+                if(!"".equals(sharedPreferences.getString(Constants.EMERGENCY_CONTACT, ""))) {
+                    ((Switch) findViewById(R.id.fallSwitch)).setChecked(true);
+                }
             }
+            //do not need to save reference for fall detector
+            Detector.initiate(getContextMain());
 
             //does not make sense to turn on external monitoring by default since additional setup is required
             ((Switch) findViewById(R.id.externalSwitch)).setChecked(sharedPreferences.getBoolean("externalSwitch", false));
@@ -248,11 +252,18 @@ public class MainActivity extends Activity {
         if(switch1.isChecked()){
             Alarm.fallMonitoringOn = true;
             editor.putBoolean("fallSwitch", true);
+            editor.commit();
+
+            setContentView(R.layout.activity_fallview);
+            Intent intent = new Intent(this, FallViewSettingActivity.class);
+            startActivity(intent);
+            finish();
         } else {
             Alarm.fallMonitoringOn = false;
             editor.putBoolean("fallSwitch", false);
+            editor.commit();
         }
-        editor.commit();
+
     }
     public void externalSwitch(View view) {
         Switch switch1 = (Switch) findViewById(R.id.externalSwitch);

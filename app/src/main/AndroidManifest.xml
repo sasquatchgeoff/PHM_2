@@ -8,6 +8,7 @@
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
     <!--ability to send text automatically-->
     <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <!--ability to use gms-->
     <uses-permission android:name="capstone.se491_phm.permission.C2D_MESSAGE"/>
     <!--ability to receive gms message-->
@@ -56,6 +57,14 @@
             </intent-filter>
         </activity>
         <!-- questionnare activities end -->
+
+        <!--fallview views start-->
+        <activity android:name=".sensors.FallViewSettingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <!--fallview views end-->
 
         <!--external sensor activities start -->
         <activity android:name=".sensors.ExternalSensorActivity">
