@@ -297,7 +297,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
     @Override
     protected void onPreExecute(){
         alertDialog= new AlertDialog.Builder(context).create();
-        alertDialog.setTitle("Login Status");
+        alertDialog.setTitle("Status");
     }
 
 
@@ -323,11 +323,17 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 context.startActivity(r);
             }
 
+
         } else {
             if (result.equals("save successful"))
                 Log.i(TAG, "GCM registration token saved successfully.");
             else if (result.equals("get data failed"))
                 Log.i(TAG, "Error occurred getting the GCM registration info. "+ result);
+            else if (result.equals("The email account is already exist")) {
+                alertDialog.setMessage(result);
+                alertDialog.show();
+                alertDialog.getCurrentFocus();
+            }
             else
                 Log.i(TAG, result);
 
