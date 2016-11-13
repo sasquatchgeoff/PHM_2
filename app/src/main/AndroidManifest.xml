@@ -67,6 +67,11 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+        <activity android:name=".sensors.FallDetectedActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
         <!--fallview views end-->
 
         <!--external sensor activities start -->

@@ -10,12 +10,15 @@ import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
@@ -37,6 +40,7 @@ import capstone.se491_phm.jobs.WeeklyActivityMonitorJob;
 import capstone.se491_phm.location.GPS_Service;
 import capstone.se491_phm.sensors.ExternalSensorActivity;
 import capstone.se491_phm.sensors.ExternalSensorClient;
+import capstone.se491_phm.sensors.FallDetectedActivity;
 import capstone.se491_phm.sensors.FallViewSettingActivity;
 import capstone.se491_phm.sensors.ISensors;
 import capstone.se491_phm.sensors.StepCounter;
@@ -63,8 +67,7 @@ public class MainActivity extends Activity {
     public static NotificationManager mNotificationManager;
     public static SharedPreferences sharedPreferences = null;
     public static Map<String, Intent> runningServices = new HashMap<>();
-
-    private Button btn_start;
+    BroadcastReceiver receiver = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +76,9 @@ public class MainActivity extends Activity {
 
 
         // For share location button
-        btn_start = (Button) findViewById(R.id.btn_share);
         if(!runtime_permissions())
         {
-            enable_buttons();
+            enable_buttons(null);
         }
 
         mContext = getBaseContext();
@@ -102,6 +104,31 @@ public class MainActivity extends Activity {
         initSensors();
         //create all jobs
         createScheduleJobs();
+
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String broadcastMessage = intent.getStringExtra(Alarm.broadcasterMessage);
+                if("fallDetected".equalsIgnoreCase(broadcastMessage)){
+                    setContentView(R.layout.activity_fall_detected);
+                    Intent tempIntent = new Intent(context, FallDetectedActivity.class);
+                    startActivity(tempIntent);
+                    finish();
+                } else {
+                    FallDetectedActivity.setCountDownTextValue(broadcastMessage);
+                }
+            }
+        };
+        LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
+                new IntentFilter(Alarm.alertBroadcastIntent)
+        );
+
+        if(sharedPreferences.getBoolean(Constants.WAITING_FOR_FALL_ACK,false)){
+            setContentView(R.layout.activity_fall_detected);
+            Intent tempIntent = new Intent(mContext, FallDetectedActivity.class);
+            startActivity(tempIntent);
+            finish();
+        }
     }
 
 
@@ -131,6 +158,9 @@ public class MainActivity extends Activity {
             if(sharedPreferences.getBoolean("fallSwitch", false)) {
                 if(!"".equals(sharedPreferences.getString(Constants.EMERGENCY_CONTACT, ""))) {
                     ((Switch) findViewById(R.id.fallSwitch)).setChecked(true);
+//                    LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
+//                            new IntentFilter(Alarm.alertBroadcastIntent)
+//                    );
                 }
             }
             //do not need to save reference for fall detector
@@ -283,7 +313,11 @@ public class MainActivity extends Activity {
             editor.putBoolean("fallSwitch", true);
             editor.commit();
 
-            setContentView(R.layout.activity_fallview);
+//            LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
+//                    new IntentFilter(Alarm.alertBroadcastIntent)
+//            );
+
+            setContentView(R.layout.activity_fallview_setting);
             Intent intent = new Intent(this, FallViewSettingActivity.class);
             startActivity(intent);
             finish();
@@ -291,6 +325,8 @@ public class MainActivity extends Activity {
             Alarm.fallMonitoringOn = false;
             editor.putBoolean("fallSwitch", false);
             editor.commit();
+
+//            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         }
 
     }
@@ -387,20 +423,9 @@ public class MainActivity extends Activity {
         MainActivity.mNotificationManager.notify(3, mBuilder.build());
     }
 
-
-
-    private void enable_buttons() {
-
-        btn_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                Intent i =new Intent(getApplicationContext(),GPS_Service.class);
-                startService(i);
-            }
-        });
-
+    public void enable_buttons(View view) {
+        Intent i =new Intent(getApplicationContext(),GPS_Service.class);
+        startService(i);
     }
 
 
@@ -420,7 +445,7 @@ public class MainActivity extends Activity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 100){
             if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                enable_buttons();
+                enable_buttons(null);
             }else {
                 runtime_permissions();
             }
