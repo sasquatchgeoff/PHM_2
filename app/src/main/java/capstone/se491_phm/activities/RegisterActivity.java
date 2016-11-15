@@ -40,8 +40,6 @@ public class RegisterActivity extends Activity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-
-
         // Link to Login Screen
         btnLinkToLogin.setOnClickListener(new View.OnClickListener() {
 
@@ -52,7 +50,6 @@ public class RegisterActivity extends Activity {
                 finish();
             }
         });
-
     }
 
     // Register Button Click event
@@ -71,10 +68,6 @@ public class RegisterActivity extends Activity {
                 BackgroundWorker bLogin= new BackgroundWorker(this);
                 bLogin.execute(type, email ,password, name);
 
-
-              //  Intent i = new Intent(getApplicationContext(),
-                //        MainActivity.class);
-             //   startActivity(i);
             } else {
                 Toast.makeText(getApplicationContext(),
                         "Please enter your details!", Toast.LENGTH_LONG)

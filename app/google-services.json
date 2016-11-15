@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "993069744681",
+    "firebase_url": "https://patient-health-monitor.firebaseio.com",
+    "project_id": "patient-health-monitor",
+    "storage_bucket": "patient-health-monitor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993069744681:android:664a33163fe8eb75",
+        "android_client_info": {
+          "package_name": "capstone.se491_phm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993069744681-cc507upqganmfn62sr88sadr8o0jtius.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmMxqCHxWqkH0x2MRBJ8PoOnZCO9MsuSw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

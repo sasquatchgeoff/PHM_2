@@ -34,12 +34,6 @@ public class LoginActivity extends Activity {
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLinkToRegister = (Button) findViewById(R.id.btnLinkToRegisterScreen);
 
-        // Progress dialog
-        //pDialog = new ProgressDialog(this);
-       // pDialog.setCancelable(false);
-
-
-
         // Link to Register Screen
         btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
 
@@ -50,29 +44,19 @@ public class LoginActivity extends Activity {
                 finish();
             }
         });
-
     }
 
-
-                // Login button Click Event
+    // Login button Click Event
     public void onLogin(View view) {
         String email = inputEmail.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
         String type ="login";
         // Check for empty data in the form
-        if (!email.isEmpty() && !password.isEmpty()) {
-            // login user
-                    /*
-                    checkLogin(email, password);
-                    Check this credentials into the db
-                     */
-
+        if (!email.isEmpty() && !password.isEmpty())
+        {
             BackgroundWorker bLogin= new BackgroundWorker(this);
             bLogin.execute(type, email ,password);
 
-            //Intent i = new Intent(getApplicationContext(),
-                //    MainActivity.class);
-           // startActivity(i);
         } else {
             // Prompt user to enter credentials
             Toast.makeText(getApplicationContext(),
@@ -80,8 +64,4 @@ public class LoginActivity extends Activity {
                     .show();
         }
     }
-
 }
-
-
-

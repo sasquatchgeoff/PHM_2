@@ -2,8 +2,8 @@ package capstone.se491_phm.common.util;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -19,8 +19,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 
-import capstone.se491_phm.MainActivity;
 import capstone.se491_phm.activities.LoginActivity;
+import capstone.se491_phm.webview.WebViewActivity;
 
 
 /**
@@ -314,7 +314,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
 
             if (result.equals("login success")) {
                 Intent i = new Intent(context.getApplicationContext(),
-                        MainActivity.class);
+                        WebViewActivity.class);
                 context.startActivity(i);
             }
             if (result.equals("registration successful")) {
@@ -345,8 +345,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
     }
-
-
 
 
 }
