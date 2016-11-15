@@ -82,6 +82,14 @@
         </activity>
         <!--external sensor activities end-->
 
+        <!-- Webview Activity -->
+        <activity android:name=".webview.WebViewActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <!-- End -->
+
         <!-- feature list start -->
         <uses-feature
             android:name="@string/step_detector" android:required="false"/>
