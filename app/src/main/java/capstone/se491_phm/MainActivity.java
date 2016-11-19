@@ -74,13 +74,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        // For share location button
-        if(!runtime_permissions())
-        {
-            enable_buttons(null);
-        }
-
         mContext = getBaseContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         //cancel all notification created by the app
@@ -309,13 +302,11 @@ public class MainActivity extends Activity {
         Switch switch1 = (Switch) findViewById(R.id.fallSwitch);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if(switch1.isChecked()){
+            runtime_permissions();
+
             Alarm.fallMonitoringOn = true;
             editor.putBoolean("fallSwitch", true);
             editor.commit();
-
-//            LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
-//                    new IntentFilter(Alarm.alertBroadcastIntent)
-//            );
 
             setContentView(R.layout.activity_fallview_setting);
             Intent intent = new Intent(this, FallViewSettingActivity.class);
@@ -325,8 +316,6 @@ public class MainActivity extends Activity {
             Alarm.fallMonitoringOn = false;
             editor.putBoolean("fallSwitch", false);
             editor.commit();
-
-//            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         }
 
     }
@@ -423,10 +412,10 @@ public class MainActivity extends Activity {
         MainActivity.mNotificationManager.notify(3, mBuilder.build());
     }
 
-    public void enable_buttons(View view) {
-        Intent i =new Intent(getApplicationContext(),GPS_Service.class);
-        startService(i);
-    }
+//    public void enable_buttons(View view) {
+//        Intent i =new Intent(getApplicationContext(),GPS_Service.class);
+//        startService(i);
+//    }
 
 
     private boolean runtime_permissions() {
@@ -445,7 +434,7 @@ public class MainActivity extends Activity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 100){
             if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                enable_buttons(null);
+                //enable_buttons(null);
             }else {
                 runtime_permissions();
             }

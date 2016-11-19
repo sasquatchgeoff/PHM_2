@@ -38,6 +38,7 @@ import android.widget.Toast;
 import java.util.concurrent.TimeUnit;
 
 import capstone.se491_phm.common.Constants;
+import capstone.se491_phm.location.LocationMgr;
 import capstone.se491_phm.sensors.FallDetectedActivity;
 
 public class Alarm {
@@ -83,10 +84,13 @@ public class Alarm {
     }
 
     public static void sendSMS(Context context){
-        //TODO need to get number from user
         String phoneNumber= PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.EMERGENCY_CONTACT, "");
         if(!"".equals(phoneNumber)){
-            String message="Help I have fallen and can't get up!";
+            String message="Help I have fallen! Last know location: ";
+
+            LocationMgr locMgr = new LocationMgr(context);
+            message += locMgr.getLocationUrl();
+
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(phoneNumber, null, message, null, null);
 

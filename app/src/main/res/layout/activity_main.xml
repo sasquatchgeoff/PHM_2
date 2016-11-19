@@ -84,14 +84,14 @@
         android:visibility="invisible"
         android:onClick="showExternalSensorView"/>
 
-    <Button
-        android:text="Share Location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_share"
-        android:layout_below="@+id/resetConnPref"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="34dp"
-        android:onClick="enable_buttons"/>
+    <!--<Button-->
+        <!--android:text="Share Location"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/btn_share"-->
+        <!--android:layout_below="@+id/resetConnPref"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginTop="34dp"-->
+        <!--android:onClick="enable_buttons"/>-->
 
 </RelativeLayout>
